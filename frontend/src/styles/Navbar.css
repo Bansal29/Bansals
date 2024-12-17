@@ -1,0 +1,99 @@
+/* Navbar Styles */
+.navbar {
+  background-color: #fff;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  text-decoration: none;
+}
+
+.brand-name {
+  font-size: 28px;
+  color: #3498db;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-link {
+  margin-right: 20px;
+  font-size: 16px;
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar-link:hover {
+  color: #3498db;
+}
+
+.navbar-btn {
+  padding: 8px 16px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #e74c3c;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+  font-weight: 500;
+}
+
+.navbar-btn:hover {
+  background-color: #c0392b;
+}
+
+.signup-btn {
+  padding: 8px 16px;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 5px;
+  font-weight: 500;
+}
+
+.signup-btn:hover {
+  background-color: #2980b9;
+}
+
+/* Mobile Styling */
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-links {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .navbar-link {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .navbar-btn {
+    margin-top: 10px;
+  }
+}
