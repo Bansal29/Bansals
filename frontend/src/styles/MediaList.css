@@ -34,9 +34,46 @@ h2 {
   margin: 10px 0;
 }
 
+/* Style for media label (tag-like shape) */
+.media-label {
+  font-weight: 600;
+  color: #fff; /* White text for good contrast */
+  background-color: #4caf50; /* Fresh green color for visibility */
+  padding: 6px 20px; /* More padding to make the tag larger */
+  border-radius: 16px; /* Rounder corners for a more tag-like look */
+  font-size: 14px; /* Slightly larger font size for better visibility */
+  margin-right: 12px; /* Space between tags and other content */
+  display: inline-block; /* Ensures it's inline with other content */
+  text-align: center; /* Center the text inside the tag */
+  position: relative; /* Needed for positioning the tag point */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition for hover */
+}
+
+/* Hover effect for the tag */
+.media-label:hover {
+  background-color: #45a049; /* Slightly darker green on hover */
+  transform: translateY(-2px); /* Slight lift effect on hover */
+  cursor: pointer; /* Show pointer cursor on hover */
+}
+
+/* Style for the media type (adjusted to match tag design) */
 .media-type {
   font-size: 14px;
-  color: #777;
+  color: #fff; /* White text for good contrast */
+  background-color: #4a90e2; /* Soft blue background */
+  padding: 6px 15px; /* Balanced padding */
+  border-radius: 50px; /* Pill-like rounded edges */
+  display: inline-block; /* Make it inline with the content */
+  text-align: center; /* Center the text */
+  font-weight: 600; /* Slightly bolder text */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+}
+
+/* Hover effect for the media-type tag */
+.media-type:hover {
+  background-color: #357abd; /* Darker shade on hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
 }
 
 .media-content {
@@ -66,4 +103,32 @@ h2 {
 .media-link:hover {
   background-color: #007bff;
   color: #fff;
+}
+.media-list .items {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+/* ADDED THIS CSS NOW */
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.label-filter {
+  margin-bottom: 20px;
+}
+
+.label-filter select {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
