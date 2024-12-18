@@ -1,0 +1,27 @@
+.admin-page {
+  padding: 20px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+.eye-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+  font-size: 1.2em;
+  margin-left: 10px;
+}
+.highlight-row {
+  background-color: #f0f8ff; /* Light blue background */
+  font-weight: bold;
+}

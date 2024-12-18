@@ -21,6 +21,12 @@ const Navbar = () => {
               <Link to="/upload" className="navbar-link">
                 Upload Media
               </Link>
+              <Link to="/signup" className="navbar-link signup-btn">
+                New Admin register
+              </Link>
+              <Link to="/admin" className="navbar-link signup-btn">
+                View Admins
+              </Link>
               <button onClick={logout} className="navbar-btn logout-btn">
                 Logout
               </button>

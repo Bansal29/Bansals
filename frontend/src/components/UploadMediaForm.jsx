@@ -99,7 +99,7 @@ const UploadMediaForm = () => {
             onChange={(e) => setYoutubeLink(e.target.value)}
           />
           <label htmlFor="youtube-thumbnail-upload">
-            {thumbnail ? "Thumbnail Uploaded" : "Upload Thumbnail (Optional)"}
+            {thumbnail ? "Thumbnail Uploaded" : "Upload Thumbnail"}
           </label>
           <input
             type="file"

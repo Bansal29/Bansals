@@ -189,7 +189,7 @@ const MediaList = () => {
         alt: "YouTube Thumbnail",
         thumbnail:
           item.thumbnail ||
-          "https://upload.wikimedia.org/wikipedia/commons/3/34/YouTube_logo_%282017%29.png",
+          "https://cdn3.iconfinder.com/data/icons/social-network-30/512/social-06-512.png",
         link: item.url,
         label: "Watch on YouTube",
       },

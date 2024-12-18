@@ -20,3 +20,4 @@ export const fetchMediaAPI = () => API.get("/api/media");
 export const toggleStarredAPI = (mediaId) => {
   return API.post("api/media/toggleStarred", { mediaId });
 };
+export const getAllUsers = () => API.get("/api/auth/getallusers");

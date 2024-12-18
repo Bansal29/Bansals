@@ -5,6 +5,7 @@ import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
 import UploadMediaForm from "./components/UploadMediaForm";
 import MediaList from "./components/MediaList";
+import AdminPage from "./components/AdminPage";
 import { AuthProvider } from "./context/AuthContext";
 import "./styles/App.css";
 
@@ -15,6 +16,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<MediaList />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
           <Route path="/upload" element={<UploadMediaForm />} />

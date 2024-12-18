@@ -39,4 +39,22 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        password: true,
+        role: true,
+        // Optionally include other details like createdAt, etc.
+      },
+    });
+    res.json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error fetching users");
+  }
+};
+module.exports = { register, login, getAllUsers };
