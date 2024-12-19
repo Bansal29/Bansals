@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+//Register user endpoint
 const register = async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -21,6 +22,7 @@ const register = async (req, res) => {
   }
 };
 
+//login user endpoint
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -39,6 +41,7 @@ const login = async (req, res) => {
   }
 };
 
+//get all users endpoint
 const getAllUsers = async (req, res) => {
   try {
     const users = await prisma.user.findMany({
@@ -48,7 +51,6 @@ const getAllUsers = async (req, res) => {
         email: true,
         password: true,
         role: true,
-        // Optionally include other details like createdAt, etc.
       },
     });
     res.json(users);

@@ -1,10 +1,36 @@
 const { PrismaClient } = require("@prisma/client");
 const multer = require("multer");
 const { storage } = require("../config/cloudinaryConfig.js");
-
+const crypto = require("crypto");
 const prisma = new PrismaClient();
 const upload = multer({ storage });
 
+//fucntion to encrypt the urls
+const encrypt = (text) => {
+  const algorithm = "aes-256-cbc";
+  const key = crypto.scryptSync(process.env.URL_SECRET, "salt", 32);
+  const iv = crypto.randomBytes(16);
+
+  const cipher = crypto.createCipheriv(algorithm, key, iv);
+  let encrypted = cipher.update(text, "utf8", "hex");
+  encrypted += cipher.final("hex");
+  return { iv: iv.toString("hex"), encryptedData: encrypted };
+};
+
+//decrypt function for decrypting the urls
+const decrypt = (encryptedData, iv) => {
+  const algorithm = "aes-256-cbc";
+  const key = crypto.scryptSync(process.env.URL_SECRET, "salt", 32);
+  const ivBuffer = Buffer.from(iv, "hex");
+
+  const decipher = crypto.createDecipheriv(algorithm, key, ivBuffer);
+  let decrypted = decipher.update(encryptedData, "hex", "utf8");
+  decrypted += decipher.final("utf8");
+
+  return decrypted;
+};
+
+//upload media endpoint function
 const uploadMedia = async (req, res) => {
   try {
     const { title, type, label, youtubeLink, driveLink } = req.body;
@@ -22,9 +48,9 @@ const uploadMedia = async (req, res) => {
       media = await prisma.media.create({
         data: {
           title,
-          type, // 'drive'
+          type,
           label,
-          url: driveLink, // Google Drive folder link
+          url: driveLink,
           userId: req.user.id,
         },
       });
@@ -40,7 +66,7 @@ const uploadMedia = async (req, res) => {
         return res.status(400).json({ message: "YouTube link is required" });
       }
 
-      const thumbnailUrl = req.files?.thumbnail?.[0]?.path; // Cloudinary URL for uploaded thumbnail
+      const thumbnailUrl = req.files?.thumbnail?.[0]?.path;
       if (!thumbnailUrl) {
         return res.status(400).json({ message: "Thumbnail image is required" });
       }
@@ -48,10 +74,10 @@ const uploadMedia = async (req, res) => {
       media = await prisma.media.create({
         data: {
           title,
-          type, // 'youtube'
+          type,
           label,
-          url: youtubeLink, // YouTube link
-          thumbnail: thumbnailUrl, // Uploaded thumbnail URL
+          url: youtubeLink,
+          thumbnail: thumbnailUrl,
           userId: req.user.id,
         },
       });
@@ -62,7 +88,7 @@ const uploadMedia = async (req, res) => {
     }
 
     // 3. Handle Photo or Video upload
-    const fileUrl = req.files?.file?.[0]?.path; // Cloudinary URL for uploaded file
+    const fileUrl = req.files?.file?.[0]?.path;
     if (!fileUrl) {
       return res.status(400).json({ message: "File is required" });
     }
@@ -70,9 +96,9 @@ const uploadMedia = async (req, res) => {
     media = await prisma.media.create({
       data: {
         title,
-        type, // 'image' or 'video'
+        type,
         label,
-        url: fileUrl, // Cloudinary file URL
+        url: fileUrl,
         userId: req.user.id,
       },
     });
@@ -84,7 +110,7 @@ const uploadMedia = async (req, res) => {
   }
 };
 
-//get media files
+//get media endpoint function
 const getMedia = async (req, res) => {
   try {
     const media = await prisma.media.findMany({
@@ -97,7 +123,7 @@ const getMedia = async (req, res) => {
   }
 };
 
-//update starred status
+//update starred status endpoint function
 const toggleStarred = async (req, res) => {
   try {
     const { mediaId } = req.body;
@@ -123,7 +149,8 @@ const toggleStarred = async (req, res) => {
     res.status(500).json({ message: "Error toggling starred status" });
   }
 };
-// New deleteMedia endpoint
+
+// Delete Media endpoint function
 const deleteMedia = async (req, res) => {
   try {
     const { mediaId } = req.params;

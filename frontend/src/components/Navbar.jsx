@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/Navbar.css";
+import logo from "../styles/weblogo.png";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -10,6 +11,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-brand">
+          <img src={logo} alt="Logo" className="navbar-logo" />
           <span className="brand-name">Bansal's</span>
         </Link>
         <div className="navbar-links">
