@@ -13,11 +13,11 @@ const Navbar = () => {
           <span className="brand-name">Bansal's</span>
         </Link>
         <div className="navbar-links">
-          <Link to="/" className="navbar-link">
-            Home
-          </Link>
           {user ? (
             <div>
+              <Link to="/" className="navbar-link">
+                Home
+              </Link>
               <Link to="/upload" className="navbar-link">
                 Upload Media
               </Link>
