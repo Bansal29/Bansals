@@ -4,6 +4,7 @@ const {
   getMedia,
   upload,
   toggleStarred, // Import the toggleStarred function
+  deleteMedia, // Import the deleteMedia function
 } = require("../controllers/mediaController.js");
 const verifyToken = require("../middlewares/verifyToken.js");
 
@@ -21,6 +22,9 @@ router.post(
 router.get("/", getMedia);
 
 // Route for toggling starred status
-router.post("/toggleStarred", verifyToken, toggleStarred); // Add this line
+router.post("/toggleStarred", verifyToken, toggleStarred);
+
+// Route for deleting media
+router.delete("/delete/:mediaId", verifyToken, deleteMedia); // Add this line
 
 module.exports = router;

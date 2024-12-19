@@ -18,6 +18,9 @@ export const uploadMediaAPI = (formData) =>
   API.post("/api/media/upload", formData);
 export const fetchMediaAPI = () => API.get("/api/media");
 export const toggleStarredAPI = (mediaId) => {
-  return API.post("api/media/toggleStarred", { mediaId });
+  return API.post("/api/media/toggleStarred", { mediaId });
 };
 export const getAllUsers = () => API.get("/api/auth/getallusers");
+export const deleteMediaAPI = (mediaId) => {
+  return API.delete(`/api/media/delete/${mediaId}`);
+};

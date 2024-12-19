@@ -22,9 +22,6 @@ const UploadMediaForm = () => {
 
     if (type === "drive") {
       formData.append("driveLink", driveLink);
-      if (thumbnail) {
-        formData.append("thumbnail", thumbnail); // Add thumbnail to FormData for drive
-      }
     } else if (type === "youtube") {
       formData.append("youtubeLink", youtubeLink);
       if (thumbnail) {
@@ -35,7 +32,6 @@ const UploadMediaForm = () => {
     }
 
     try {
-      console.log("FormData: ", formData);
       await uploadMediaAPI(formData);
       alert("Media uploaded successfully!");
       navigate("/");
@@ -76,15 +72,6 @@ const UploadMediaForm = () => {
             placeholder="Google Drive Link"
             value={driveLink}
             onChange={(e) => setDriveLink(e.target.value)}
-          />
-          <label htmlFor="thumbnail-upload">
-            {thumbnail ? "Thumbnail Uploaded" : "Upload Thumbnail (Optional)"}
-          </label>
-          <input
-            type="file"
-            id="thumbnail-upload"
-            onChange={(e) => setThumbnail(e.target.files[0])}
-            accept="image/*"
           />
         </div>
       )}

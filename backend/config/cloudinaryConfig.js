@@ -14,6 +14,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "BANSAL_media", // Folder where media will be stored in Cloudinary
     resource_type: "auto", // Allows image and video uploads
+    allowed_formats: ["jpeg", "jpg", "png"],
   },
 });
 
