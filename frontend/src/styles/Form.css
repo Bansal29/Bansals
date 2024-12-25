@@ -71,3 +71,26 @@
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
+/* Add this to your Form.css file */
+
+.spinner {
+  border: 3px solid #f3f3f3; /* Light grey background */
+  border-top: 3px solid #3498db; /* Blue spinner color */
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+button:disabled {
+  cursor: not-allowed;
+}

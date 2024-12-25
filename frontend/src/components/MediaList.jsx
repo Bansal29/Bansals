@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { fetchMediaAPI, toggleStarredAPI, deleteMediaAPI } from "../api/api"; // Import deleteMediaAPI
+import { fetchMediaAPI, toggleStarredAPI, deleteMediaAPI } from "../api/api";
+import ContentLoader from "react-content-loader"; // Importing React Content Loader
 import "../styles/MediaList.css";
 
 const MediaList = () => {
@@ -9,42 +10,43 @@ const MediaList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLabel, setSelectedLabel] = useState("");
   const { user } = useContext(AuthContext);
+  const [isListening, setIsListening] = useState(false);
+  const [loading, setLoading] = useState(true); // New loading state
 
   useEffect(() => {
     const fetchMedia = async () => {
       try {
-        const { data } = await fetchMediaAPI();
+        setLoading(true); // Start loading
+        const { data } = await fetchMediaAPI(); // Replace with your actual API call
         setMedia(data);
-        setFilteredMedia(data); // Initialize filteredMedia with all media
+        setFilteredMedia(data);
+        setLoading(false); // Stop loading after data is fetched
       } catch (err) {
         console.error("Error fetching media:", err);
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
     fetchMedia();
   }, []);
 
-  // Handle search query change
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  // Handle label filter change
   const handleLabelChange = (e) => {
     setSelectedLabel(e.target.value);
   };
 
-  // Filter media based on search query and selected label
   useEffect(() => {
     let filtered = media;
 
-    // Filter by search query
     if (searchQuery) {
       filtered = filtered.filter((item) =>
         item.title.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    // Filter by selected label
     if (selectedLabel) {
       filtered = filtered.filter((item) =>
         item.label.toLowerCase().includes(selectedLabel.toLowerCase())
@@ -150,11 +152,44 @@ const MediaList = () => {
     );
   };
 
+  const startListening = () => {
+    if (!("webkitSpeechRecognition" in window)) {
+      alert("Speech Recognition is not supported in this browser.");
+      return;
+    }
+
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = "en-US";
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech recognition error:", event.error);
+      setIsListening(false);
+    };
+
+    recognition.onresult = (event) => {
+      const spokenQuery = event.results[0][0].transcript;
+      setSearchQuery(spokenQuery);
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.start();
+  };
+
   return (
     <div className="media-list">
       <h2>All memories...</h2>
 
-      {/* Search bar */}
+      {/* Search bar with voice search */}
       <div className="search-bar">
         <input
           type="text"
@@ -162,6 +197,13 @@ const MediaList = () => {
           value={searchQuery}
           onChange={handleSearchChange}
         />
+        <button
+          className="voice-search-button"
+          onClick={startListening}
+          disabled={isListening}
+        >
+          🎤 {isListening ? "Listening..." : "Voice Search"}
+        </button>
       </div>
 
       {/* Dropdown for label selection */}
@@ -170,7 +212,7 @@ const MediaList = () => {
           <option value="">All Labels</option>
           {media
             .map((item) => item.label)
-            .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicates
+            .filter((value, index, self) => self.indexOf(value) === index)
             .map((label) => (
               <option key={label} value={label}>
                 {label}
@@ -180,16 +222,44 @@ const MediaList = () => {
       </div>
 
       <div className="media-container">
-        {filteredMedia.map((item) => (
-          <div key={item.id} className="media-card">
-            <h3 className="media-title">{item.title}</h3>
-            <div className="items">
-              <span className="media-type">{item.type}</span>
-              <span className="media-label">{item.label}</span>
-            </div>
-            {renderMediaContent(item)}
-          </div>
-        ))}
+        {loading
+          ? // Skeleton Loader
+            Array.from({ length: 5 }).map((_, index) => (
+              <ContentLoader
+                key={index}
+                speed={2}
+                width={300}
+                height={180}
+                viewBox="0 0 300 180"
+                backgroundColor="#f3f3f3"
+                foregroundColor="#b8b8b8"
+                className="media-skeleton"
+              >
+                {/* Title */}
+                <rect x="10" y="10" rx="4" ry="4" width="80%" height="20" />
+
+                {/* Media type and label */}
+                <rect x="10" y="40" rx="4" ry="4" width="40%" height="15" />
+                <rect x="60%" y="40" rx="4" ry="4" width="30%" height="15" />
+
+                {/* Thumbnail */}
+                <rect x="10" y="70" rx="5" ry="5" width="100" height="100" />
+
+                {/* Buttons */}
+                <rect x="120" y="80" rx="5" ry="5" width="50%" height="15" />
+                <rect x="120" y="110" rx="5" ry="5" width="40%" height="15" />
+              </ContentLoader>
+            ))
+          : filteredMedia.map((item) => (
+              <div key={item.id} className="media-card">
+                <h3 className="media-title">{item.title}</h3>
+                <div className="items">
+                  <span className="media-type">{item.type}</span>
+                  <span className="media-label">{item.label}</span>
+                </div>
+                {renderMediaContent(item)}
+              </div>
+            ))}
       </div>
     </div>
   );

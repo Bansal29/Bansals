@@ -184,3 +184,21 @@ h2 {
 .delete-button:hover {
   color: darkred;
 }
+.voice-search-button {
+  margin-left: 10px;
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.voice-search-button:hover {
+  background-color: #0056b3;
+}
+.media-skeleton {
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
